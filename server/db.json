@@ -1,0 +1,118 @@
+{
+    "contacts": [
+        {
+            "id": 1,
+            "name": "Albert",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.work",
+                    "number": 93200621621
+                },
+                {
+                    "type": "PhoneType.home",
+                    "number": 93444001100
+                },
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 629304050
+                }
+            ],
+            "email": "albert@email.com",
+            "address": "Villaroel 52, 08027, Barcelona"
+        },
+        {
+            "id": 2,
+            "name": "Beckie",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 111223344
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Johan",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.home",
+                    "number": 123456789
+                },
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 111111122
+                }
+            ],
+            "email": "johan@email.com",
+            "address": "Raval 7, 08020, Barcelona"
+        },
+        {
+            "id": 4,
+            "name": "Martin",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.work",
+                    "number": 222334455
+                },
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 222222222
+                }
+            ],
+            "email": "martin@email.com",
+            "address": "Boquería 12, 08021, Barcelona"
+        },
+        {
+            "id": 5,
+            "name": "Samantha",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.work",
+                    "number": 931224455
+                },
+                {
+                    "type": "PhoneType.home",
+                    "number": 934122233
+                },
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 662113344
+                }
+            ],
+            "email": "samantha@email.com",
+            "address": "Plaza Pau Vila 1, 08039, Barcelona"
+        },
+        {
+            "id": 6,
+            "name": "Kaycee",
+            "picture": "assets/default-user.png",
+            "phones": [
+                {
+                    "type": "PhoneType.mobile",
+                    "number": 939876655
+                }
+            ],
+            "email": "kaycee@email.com",
+            "address": "Arago 356, 08032, Barcelona"
+        }
+    ],
+    "users":[
+        {
+            "id": 1,
+            "name":"Bruce",
+            "email": "bwillis@universal.com",
+            "token": "insecuretoken"
+        },
+        {
+            "id": 2,
+            "name":"Jhonny",
+            "email": "jdeep@universal.com",
+            "token": "1234567890"
+        }
+    ]
+}

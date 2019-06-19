@@ -21,4 +21,8 @@ export class ContactsListComponent implements OnInit {
     this.contacts$ = this.contactsService.contacts$;
   }
 
+  deleteContact(contact){
+    this.contactsService.removeContact(contact);
+  }
+
 }

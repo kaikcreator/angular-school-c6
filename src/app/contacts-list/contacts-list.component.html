@@ -1,8 +1,14 @@
 <div class="container">
     <div class="contacts-list">
-        <app-contact *ngFor="let contact of contacts$ | async"
-        [contact]="contact"
-        [routerLink]="['/contact-detail', contact.id]"
-        ></app-contact>
+        <div class="list-item" *ngFor="let contact of contacts$ | async">
+            <app-contact
+            [contact]="contact"
+            [routerLink]="['/contact-detail', contact.id]">
+            </app-contact>
+            <div class="actions">
+                <div class="edit action" [routerLink]="['/contact-detail/edit/', contact.id]"></div>
+                <div class="delete action" (click)="deleteContact(contact)"></div>
+            </div>
+        </div>
     </div>
 </div>

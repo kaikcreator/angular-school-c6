@@ -21,6 +21,11 @@ The endpoints available are:
 
 Any request should be made setting a bearer token authentication in the request headers, matching the auth token of some of the users in database (for example `Authorization: Bearer 1234567890`).
 
+## Artwork atribution
+* Pen icon made by [Icongeek26](https://www.flaticon.com/authors/icongeek26) from www.flaticon.com
+* Garbage icon made by [Anatoly](https://www.flaticon.com/authors/anatoly) from www.flaticon.com
+
+
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.

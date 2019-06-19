@@ -1,4 +1,4 @@
-<form [formGroup]="contactForm" (ngSubmit)="addContact()">    
+<form [formGroup]="contactForm" (ngSubmit)="submitForm()">    
     <!-- image field -->
     <div class="form-item-image">
         <img [src]="contactForm.value.picture">
@@ -49,7 +49,7 @@
 
     <!-- submit button -->
     <button class="form-button" type="submit" [disabled]="contactForm.invalid">
-        Add contact
+        <ng-content></ng-content>
     </button>
     
 </form>

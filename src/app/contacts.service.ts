@@ -27,8 +27,8 @@ export class ContactsService {
                 {type:PhoneType.mobile, number:629304050 } 
             ], "albert@email.com", "Villaroel 52, 08027, Barcelona" ), 
             new Contact(2, "Beckie", "assets/default-user.png", [ 
-                { type:PhoneType.mobile, number:111223344 }
-            ] ),
+                { type:PhoneType.mobile, number:111223344 },
+            ], "", "" ),
             new Contact(3, "Johan", "assets/default-user.png", [
                 {type:PhoneType.home, number:123456789 },
                 {type:PhoneType.mobile, number:111111122 } 
@@ -54,6 +54,27 @@ export class ContactsService {
         if(!contact.id)
             contact.id = this.contactsSubject.value.length + 1;            
         this.contactsSubject.next([...this.contactsSubject.value, contact ]);
+    }
+
+    public updateContact(contact:Contact){
+        const contacts = this.contactsSubject.value;
+        let replaceIndex = contacts.findIndex( item => item.id == contact.id);
+        const newContacts = [
+            ...contacts.slice(0,replaceIndex), 
+            contact, 
+            ...contacts.slice(replaceIndex+1)
+        ];
+        this.contactsSubject.next(newContacts);
+    }
+
+    public removeContact(contact:Contact){
+        const contacts = this.contactsSubject.value;
+        let replaceIndex = contacts.findIndex( item => item.id == contact.id);
+        const newContacts = [
+            ...contacts.slice(0,replaceIndex), 
+            ...contacts.slice(replaceIndex+1)
+        ];
+        this.contactsSubject.next(newContacts);                
     }
 
 }

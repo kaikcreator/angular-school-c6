@@ -8,11 +8,16 @@ import { ContactDetailResolverService } from './contact-detail-resolver.service'
 import { AuthGuard } from '../auth/auth.guard';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { StartsWithCapitalValidatorDirective } from '../directives/startsWithCapital.directive';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { AddContactComponent } from './add-contact/add-contact.component';
 
 const contactDetailRoutes:Routes = [
     { path: 'contact-detail', component: ContactDetailShellComponent, data:{title: "Contact detail"},
     children: [
-      { path: '', component:ContactFormComponent },
+      { path: '', component:AddContactComponent },
+      { path: 'edit/:id', component:EditContactComponent, 
+        resolve:{ contact:ContactDetailResolverService } 
+      },
       { path: ':id', component:ContactDetailComponent, 
         resolve:{ contact:ContactDetailResolverService }
       }
@@ -31,7 +36,9 @@ const contactDetailRoutes:Routes = [
         ContactDetailComponent,
         ContactDetailShellComponent,
         ContactFormComponent,
-        StartsWithCapitalValidatorDirective
+        StartsWithCapitalValidatorDirective,
+        EditContactComponent,
+        AddContactComponent
     ]
 
 })

@@ -16,15 +16,17 @@ const getBearerToken = (authHeader) => {
 
 //function to return wether the token is in DDBB or not
 module.exports = isAuthorized = (request) => {
-    const token = getBearerToken(request.headers.authorization);
-    if (!token)
+    try{
+        const token = getBearerToken(request.headers.authorization);
+        if (!token)
+            return false;
+        const user = db.get('users')
+        .filter({token})
+        .value();
+        return user.length > 0;
+    }catch(err){
         return false;
-
-    const user = db.get('users')
-    .filter({token})
-    .value();
-
-    return user.length > 0;
+    }
 }
 
 

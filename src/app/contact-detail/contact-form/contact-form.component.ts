@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact, PhoneType } from 'src/app/contact.model';
 import { ContactsService } from 'src/app/contacts.service';
-import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { startsWithCapitalValidator } from 'src/app/directives/startsWithCapital.directive';
 import { tap, filter, map } from 'rxjs/operators';
 import { zip } from 'rxjs';
@@ -16,20 +16,20 @@ export class ContactFormComponent implements OnInit {
   
   public readonly phoneTypes:string[] = Object.values(PhoneType);
 
-  public contactForm:FormGroup = new FormGroup({
-    name: new FormControl('', [ Validators.required, Validators.minLength(2), startsWithCapitalValidator() ]),
-    picture: new FormControl('assets/default-user.png'),
-    phones: new FormArray([ 
-      new FormGroup({
-        type: new FormControl(null),
-        number: new FormControl('')
+  public contactForm = this.fb.group({
+    name: ['', [ Validators.required, Validators.minLength(2), startsWithCapitalValidator() ]],
+    picture: ['assets/default-user.png'],
+    phones: this.fb.array([
+      this.fb.group({
+        type: [null],
+        number: ['']
       })
     ]),
-    email: new FormControl(''),
-    address: new FormControl('')
+    email: [''],
+    address: ['']
   });
 
-  constructor(private contactsService:ContactsService) { }
+  constructor(private contactsService:ContactsService, private fb:FormBuilder) { }
 
   ngOnInit() {
     const contact = localStorage.getItem('contact');
@@ -63,9 +63,9 @@ export class ContactFormComponent implements OnInit {
 
   addNewPhoneToModel(){
     this.phones.push(
-      new FormGroup({
-        type: new FormControl(null),
-        number: new FormControl('')
+      this.fb.group({
+        type: [null],
+        number: ['']
       })
     );
   }

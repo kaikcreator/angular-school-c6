@@ -6,6 +6,8 @@ const db = low(adapter);
 
 //simple bearer token parser
 const getBearerToken = (authHeader) => {
+    if(!authHeader)
+        return null;
     const authHeaderArray = authHeader.split(" ");
     if(authHeaderArray.length != 2)
         return null;
@@ -15,18 +17,52 @@ const getBearerToken = (authHeader) => {
 }
 
 //function to return wether the token is in DDBB or not
-module.exports = isAuthorized = (request) => {
-    try{
-        const token = getBearerToken(request.headers.authorization);
-        if (!token)
-            return false;
-        const user = db.get('users')
-        .filter({token})
-        .value();
-        return user.length > 0;
-    }catch(err){
-        return false;
+const isAuthorized = (req, res, next) =>{
+    if(res.locals.authenticated){
+        next();
+        return;
     }
+    try{
+        const token = getBearerToken(req.headers.authorization);
+        //if no token is received, return forbidden status
+        if (!token){
+            res.sendStatus(401);
+        }
+        else{
+            const user = db.get('users')
+            .filter({token})
+            .value();
+            //if token belongs to some user, move forward
+            if(user.length > 0){
+                res.locals.authenticated = true;
+                next();
+            }
+            //otherwise, return forbidden status
+            else{
+                res.sendStatus(401);
+            }
+        }
+    }catch(err){
+        //if there's some other error, return server error status
+        res.sendStatus(500);
+    }
+};
+
+const validateNewUser = (req, res, next) =>{
+    //if some field is missing, return a 'bad request' status
+    if(!req.body.name || !req.body.email)
+        res.sendStatus(400);
+    //if the required fields are included, add random token and create user
+    req.body.token = Math.random().toString(36).substring(2, 15);
+    //mark it as authenticated, to prevent 403 error
+    res.locals.authenticated = true;
+    //move forward
+    next();
+}
+
+module.exports = {
+    isAuthorized: isAuthorized,
+    validateNewUser: validateNewUser
 }
 
 

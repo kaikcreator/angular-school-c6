@@ -2,8 +2,8 @@
 const path = require('path');
 const express = require('express');
 const jsonServer = require('json-server');
-const isAuthorized = require('./auth');
 const multer = require('multer');
+const auth = require('./auth');
 
 const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
@@ -15,24 +15,13 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 server.use(express.static(staticDir));
 
-//custom auth logic
-server.use((req, res, next) => {
-  if (isAuthorized(req)) {
-    next(); // continue to JSON Server router
-  }
-  //if not authorized, but creating a new user...
-  else if(req.path == '/users' && req.method == 'POST'){
-    if(!req.body.name || !req.body.email)
-      res.sendStatus(400);
-    //if there's name and email, add random token and create user
-    req.body.token = Math.random().toString(36).substring(2, 15);
-    next();
-  } 
-  else {
-    next();
-    //res.sendStatus(401);
-  }
+//in case there's a signup, validate fields and add random token first
+server.post('/users', auth.validateNewUser, (req, res, next) =>{
+  next();
 });
+
+//make sure user has permissions
+server.use(auth.isAuthorized);
 
 //update contact creation to use default user image from server if no image provided
 server.post('/contacts', function (req, res, next) {

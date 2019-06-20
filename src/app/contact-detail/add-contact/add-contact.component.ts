@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactsService } from 'src/app/contacts.service';
 import { Contact } from 'src/app/contact.model';
-import { ContactFormComponent } from '../contact-form/contact-form.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contact',
@@ -16,7 +16,10 @@ export class AddContactComponent implements OnInit {
   
   public contact: Contact;
   
-  constructor(private contactsService: ContactsService) { }
+  constructor(
+    private contactsService: ContactsService,
+    private router:Router
+  ) { }
 
   ngOnInit() {
     const contact = localStorage.getItem('contact');
@@ -32,6 +35,7 @@ export class AddContactComponent implements OnInit {
   addContact(contact) {
     this.contactsService.addContact(contact);
     localStorage.removeItem('contact');
+    this.router.navigate(['/']);
   }
 
 }

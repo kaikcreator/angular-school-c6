@@ -3,14 +3,18 @@ const path = require('path');
 const express = require('express');
 const jsonServer = require('json-server');
 const isAuthorized = require('./auth');
+const multer = require('multer');
+
 const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
 const staticDir = path.join(__dirname, 'public');
 const middlewares = jsonServer.defaults();
+const upload = multer({ dest: 'server/public/img' });
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 server.use(express.static(staticDir));
+
 //custom auth logic
 server.use((req, res, next) => {
   if (isAuthorized(req)) {
@@ -28,7 +32,14 @@ server.use((req, res, next) => {
     res.sendStatus(401);
   }
 });
+
+server.post('/contacts', upload.single('picture'), function (req, res, next) {
+  req.body.picture = `http://localhost:3000/img/${req.file.filename}`;
+  next();
+})
+
 server.use(router);
+
 server.listen(3000, () => {
   console.log('JSON Server is running')
 });

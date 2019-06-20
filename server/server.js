@@ -19,7 +19,8 @@ server.use(express.static(staticDir));
 server.post('/users', auth.createUser);
 
 //make sure user has permissions
-server.use(auth.isAuthorized);
+//TODO: uncomment the next line to use authentication!!!!
+//server.use(auth.isAuthorized);
 
 //update contact creation to use default user image from server if no image provided
 server.post('/contacts', (req, res, next) => {

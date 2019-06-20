@@ -7,6 +7,9 @@
 # Only exists if Bazel was run
 /bazel-out
 
+#fake server dynamic resources
+/server/public/img
+
 # dependencies
 /node_modules
 

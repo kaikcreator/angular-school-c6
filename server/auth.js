@@ -23,6 +23,7 @@ const isAuthorized = (req, res, next) =>{
         return;
     }
     try{
+        db.read();
         const token = getBearerToken(req.headers.authorization);
         //if no token is received, return forbidden status
         if (!token){
@@ -48,7 +49,7 @@ const isAuthorized = (req, res, next) =>{
     }
 };
 
-const validateNewUser = (req, res, next) =>{
+const createUser = (req, res, next) =>{
     //if some field is missing, return a 'bad request' status
     if(!req.body.name || !req.body.email)
         res.sendStatus(400);
@@ -62,7 +63,7 @@ const validateNewUser = (req, res, next) =>{
 
 module.exports = {
     isAuthorized: isAuthorized,
-    validateNewUser: validateNewUser
+    createUser: createUser
 }
 
 

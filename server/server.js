@@ -16,22 +16,20 @@ server.use(jsonServer.bodyParser);
 server.use(express.static(staticDir));
 
 //in case there's a signup, validate fields and add random token first
-server.post('/users', auth.validateNewUser, (req, res, next) =>{
-  next();
-});
+server.post('/users', auth.createUser);
 
 //make sure user has permissions
 server.use(auth.isAuthorized);
 
 //update contact creation to use default user image from server if no image provided
-server.post('/contacts', function (req, res, next) {
+server.post('/contacts', (req, res, next) => {
   if(!req.body.picture || req.body.picture == "")
     req.body.picture = `http://localhost:3000/img/default-user.png`;
   next();
 });
 
 //update contact with image file, if provided
-server.patch('/contacts/:id', upload.single('picture'), function (req, res, next) {
+server.patch('/contacts/:id', upload.single('picture'), (req, res, next) => {
   if(req.file)
     req.body.picture = `http://localhost:3000/img/${req.file.filename}`;
   next();

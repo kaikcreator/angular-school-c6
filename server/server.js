@@ -1,13 +1,16 @@
 // custom JSON-placeholder server
 const path = require('path');
+const express = require('express');
 const jsonServer = require('json-server');
 const isAuthorized = require('./auth');
 const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
+const staticDir = path.join(__dirname, 'public');
 const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
+server.use(express.static(staticDir));
 //custom auth logic
 server.use((req, res, next) => {
   if (isAuthorized(req)) {

@@ -18,6 +18,7 @@ export class ContactFormComponent implements OnInit {
   @Output() valueChanges:EventEmitter<Contact> = new EventEmitter();
   
   public readonly phoneTypes:string[] = Object.values(PhoneType);
+  private pictureFile:File = null;
 
   public contactForm = this.fb.group({
     name: ['', [ Validators.required, Validators.minLength(2), startsWithCapitalValidator() ]],
@@ -50,7 +51,7 @@ export class ContactFormComponent implements OnInit {
 
   submitForm(){
     //emit submission
-    this.submitContact.emit(this.contactForm.value);
+    this.submitContact.emit({...this.contactForm.value, pictureFile:this.pictureFile});
     //reset form
     this.contactForm.reset({
       picture:'assets/default-user.png',
@@ -67,7 +68,9 @@ export class ContactFormComponent implements OnInit {
     for(let i=0; i< contact.phones.length; i++){
       this.addNewPhoneToModel();
     }
-    this.contactForm.setValue(contact);
+    //extract picture file from contact, so there's no missmatch with form structure
+    const {pictureFile, ...cleanContact} = contact;
+    this.contactForm.setValue(cleanContact);
   }
 
   //add new phone to the phones array
@@ -83,6 +86,7 @@ export class ContactFormComponent implements OnInit {
   //add image to the form, from file input
   addImage(event){
     const file = event.target.files[0];
+    this.pictureFile = file;
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (evt) => {

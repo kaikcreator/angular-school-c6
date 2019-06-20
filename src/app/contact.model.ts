@@ -5,7 +5,8 @@ export class Contact{
         public picture:string,
         public phones:ContactPhoneI[],
         public email:string,
-        public address:string
+        public address:string,
+        public pictureFile?:File
     ){ }
 }
 

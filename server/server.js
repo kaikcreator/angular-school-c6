@@ -29,15 +29,26 @@ server.use((req, res, next) => {
     next();
   } 
   else {
-    res.sendStatus(401);
+    next();
+    //res.sendStatus(401);
   }
 });
 
-server.post('/contacts', upload.single('picture'), function (req, res, next) {
-  req.body.picture = `http://localhost:3000/img/${req.file.filename}`;
+//update contact creation to use default user image from server if no image provided
+server.post('/contacts', function (req, res, next) {
+  if(!req.body.picture || req.body.picture == "")
+    req.body.picture = `http://localhost:3000/img/default-user.png`;
   next();
-})
+});
 
+//update contact with image file, if provided
+server.patch('/contacts/:id', upload.single('picture'), function (req, res, next) {
+  if(req.file)
+    req.body.picture = `http://localhost:3000/img/${req.file.filename}`;
+  next();
+});
+
+//process CRUD ops on route resource based on db structure
 server.use(router);
 
 server.listen(3000, () => {

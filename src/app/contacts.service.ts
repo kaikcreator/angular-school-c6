@@ -21,11 +21,7 @@ export class ContactsService {
     }
 
     public addContact(contact:Contact){
-        if(!contact.picture)
-            contact.picture = "assets/default-user.png";
-        if(!contact.id)
-            contact.id = this.contactsSubject.value.length + 1;            
-        this.contactsSubject.next([...this.contactsSubject.value, contact ]);
+        return this.http.post('http://localhost:3000/contacts', contact);
     }
 
     public updateContact(contact:Contact){

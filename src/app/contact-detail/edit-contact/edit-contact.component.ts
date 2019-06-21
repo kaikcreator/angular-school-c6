@@ -30,8 +30,10 @@ export class EditContactComponent implements OnInit {
   }
 
   updateContact(formContact){
-    this.contactService.updateContact({id:this.id, ...formContact});
-    this.router.navigate(['/']);
+    this.contactService.updateContact({id:this.id, ...formContact})
+    .subscribe(response => {
+      this.router.navigate(['/']);
+    });
   }
 
 }

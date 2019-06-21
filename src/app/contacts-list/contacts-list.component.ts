@@ -22,7 +22,9 @@ export class ContactsListComponent implements OnInit {
   }
 
   deleteContact(contact){
-    this.contactsService.removeContact(contact);
+    this.contactsService.removeContact(contact).subscribe(()=>{
+      this.contacts$ = this.contactsService.getContacts();
+    });
   }
 
 }

@@ -33,9 +33,10 @@ export class AddContactComponent implements OnInit {
   }
 
   addContact(contact) {
-    this.contactsService.addContact(contact);
-    localStorage.removeItem('contact');
-    this.router.navigate(['/']);
+    this.contactsService.addContact(contact).subscribe(response =>{
+      localStorage.removeItem('contact');
+      this.router.navigate(['/']);
+    });
   }
 
 }

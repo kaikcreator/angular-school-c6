@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Contact, PhoneType} from './contact.model';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap } from 'rxjs/operators';
 
@@ -8,8 +8,6 @@ import { mergeMap } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class ContactsService {
-    private contactsSubject = new BehaviorSubject<Contact[]>([]);
-
     constructor(private http:HttpClient) { 
     }
 
@@ -41,13 +39,7 @@ export class ContactsService {
     }
 
     public removeContact(contact:Contact){
-        const contacts = this.contactsSubject.value;
-        let replaceIndex = contacts.findIndex( item => item.id == contact.id);
-        const newContacts = [
-            ...contacts.slice(0,replaceIndex), 
-            ...contacts.slice(replaceIndex+1)
-        ];
-        this.contactsSubject.next(newContacts);                
+        return this.http.delete(`http://localhost:3000/contacts/${contact.id}`);
     }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Contact, PhoneType} from './contact.model';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -17,8 +17,7 @@ export class ContactsService {
     }
 
     getContactById(id){
-        let contactMatches = this.contactsSubject.value.filter(item => item.id === id);
-        return contactMatches.length ? contactMatches[0] : null;
+        return this.http.get<Contact>(`http://localhost:3000/contacts/${id}`);
     }
 
     public addContact(contact:Contact){

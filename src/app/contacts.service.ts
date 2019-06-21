@@ -25,14 +25,7 @@ export class ContactsService {
     }
 
     public updateContact(contact:Contact){
-        const contacts = this.contactsSubject.value;
-        let replaceIndex = contacts.findIndex( item => item.id == contact.id);
-        const newContacts = [
-            ...contacts.slice(0,replaceIndex), 
-            contact, 
-            ...contacts.slice(replaceIndex+1)
-        ];
-        this.contactsSubject.next(newContacts);
+        return this.http.patch(`http://localhost:3000/contacts/${contact.id}`, contact);
     }
 
     public removeContact(contact:Contact){

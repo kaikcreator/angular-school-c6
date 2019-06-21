@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Contact, PhoneType} from './contact.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -21,11 +22,22 @@ export class ContactsService {
     }
 
     public addContact(contact:Contact){
-        return this.http.post('http://localhost:3000/contacts', contact);
+        return this.http.post('http://localhost:3000/contacts', contact).pipe(
+            mergeMap( (res:Contact) => this.updateContactImage(res, contact.pictureFile) )
+        );
     }
 
     public updateContact(contact:Contact){
-        return this.http.patch(`http://localhost:3000/contacts/${contact.id}`, contact);
+        return this.http.patch(`http://localhost:3000/contacts/${contact.id}`, contact).pipe( mergeMap( (res:Contact) => this.updateContactImage(res, contact.pictureFile) ));
+    }
+
+    private updateContactImage(contact:Contact, file:File){
+        if(!file){
+            return of(contact);
+        }
+        let formData = new FormData();
+        formData.append('picture', file, file.name);
+        return this.http.patch(`http://localhost:3000/contacts/${contact.id}`, formData);
     }
 
     public removeContact(contact:Contact){

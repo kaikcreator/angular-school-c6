@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Contact, PhoneType} from './contact.model';
 import { of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,11 +12,16 @@ import { environment } from '../environments/environment';
 export class ContactsService {
     private resourceUrl = environment.apiUrl + '/contacts';
     
-    constructor(private http:HttpClient) { 
+    constructor(private http:HttpClient, private auth:AuthService) { 
     }
 
     getContacts(){
-        return this.http.get<Contact[]>(this.resourceUrl);
+        const httpOptions = {
+            headers:  new HttpHeaders({
+                'Authorization': `Bearer ${this.auth.user.token}`
+            })
+        }
+        return this.http.get<Contact[]>(this.resourceUrl, httpOptions);
     }
 
     getContactById(id){

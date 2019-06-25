@@ -73,7 +73,9 @@
           "type": "mobile",
           "number": 111223344
         }
-      ]
+      ],
+      "email": "beckie@email.com",
+      "address": "Paseo Marítimo 32, 08003, Barcelona"
     },
     {
       "id": 6,

@@ -151,13 +151,15 @@
       "id": 1,
       "name": "Bruce",
       "email": "bwillis@universal.com",
-      "token": "insecuretoken"
+      "token": "insecuretoken",
+      "password": "pass1"
     },
     {
       "id": 2,
       "name": "Jhonny",
       "email": "jdeep@universal.com",
-      "token": "1234567890"
+      "token": "1234567890",
+      "password": "pass2"
     }
   ]
 }

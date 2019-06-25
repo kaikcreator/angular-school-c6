@@ -16,8 +16,9 @@ server.use(jsonServer.bodyParser);
 server.use(express.static(staticDir));
 
 //in case there's a signup, validate fields and add random token first
-server.post('/users', auth.createUser);
+server.post('/signup', auth.createUser);
 
+server.post('/login', auth.login);
 //make sure user has permissions
 //TODO: uncomment the next line to use authentication!!!!
 //server.use(auth.isAuthorized);
@@ -38,6 +39,11 @@ server.patch('/contacts/:id', upload.single('picture'), (req, res, next) => {
 
 //process CRUD ops on route resource based on db structure
 server.use(router);
+
+//remove user stored passwords from responses
+router.render = (req, res) => {
+  auth.cleanPasswords(req, res);
+}
 
 server.listen(3000, () => {
   console.log('JSON Server is running')

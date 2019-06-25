@@ -15,8 +15,8 @@ export class AuthService {
     this.user = JSON.parse(localStorage.getItem("user"));
    }
 
-  login():Observable<User>{
-    return of({name:"Peter", email:"peter@gmail.com", token:"123456789"}).pipe(
+  login(email, password):Observable<User>{
+    return of({email:email, password:password, token:"123456"}).pipe(
       delay(750),
       tap(user => this.user = user),
       tap(user => localStorage.setItem("user", JSON.stringify(user)))

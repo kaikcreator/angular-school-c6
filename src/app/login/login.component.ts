@@ -8,6 +8,8 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  public model = {email:"", password:""};
   
   constructor(private router:Router, private authService:AuthService) { }
   
@@ -15,7 +17,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.authService.login().subscribe(user => {
+    this.authService.login(this.model.email, this.model.password)
+    .subscribe(user => {
       if(user != null){
         const destination = this.authService.redirectUrl ? 
         this.router.parseUrl(this.authService.redirectUrl) : '';

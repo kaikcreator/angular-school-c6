@@ -52,8 +52,10 @@ const isAuthorized = (req, res, next) =>{
 //middleware to add random token to a new user
 const createUser = (req, res, next) =>{
     //if some field is missing, return a 'bad request' status
-    if(!req.body.email || !req.body.password)
+    if(!req.body.email || !req.body.password){
         res.sendStatus(400);
+        return;
+    }
     //if the required fields are included, add random token
     req.body.token = Math.random().toString(36).substring(2, 15);
     //update URL to users resource, because we want to post a new user

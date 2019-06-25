@@ -21,7 +21,7 @@ server.post('/signup', auth.createUser);
 server.post('/login', auth.login);
 //make sure user has permissions
 //TODO: uncomment the next line to use authentication!!!!
-//server.use(auth.isAuthorized);
+server.use(auth.isAuthorized);
 
 //update contact creation to use default user image from server if no image provided
 server.post('/contacts', (req, res, next) => {

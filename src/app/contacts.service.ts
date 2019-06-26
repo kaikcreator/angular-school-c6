@@ -16,12 +16,7 @@ export class ContactsService {
     }
 
     getContacts(){
-        const httpOptions = {
-            headers:  new HttpHeaders({
-                'Authorization': `Bearer ${this.auth.user.token}`
-            })
-        }
-        return this.http.get<Contact[]>(this.resourceUrl, httpOptions);
+        return this.http.get<Contact[]>(this.resourceUrl);
     }
 
     getContactById(id){

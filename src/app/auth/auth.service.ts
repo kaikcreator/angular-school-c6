@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import {of, Observable} from 'rxjs';
 import {delay, tap} from 'rxjs/operators';
 import { User } from './user.interface';
-const md5 = require('md5'); 
+import * as md5 from 'md5'; 
 
 @Injectable({
   providedIn: 'root'
